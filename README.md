@@ -1,2 +1,2 @@
-# mail
-guli-mail
+# mall
+guli-mall
