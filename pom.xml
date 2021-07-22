@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.2</version>
+        <version>2.1.8.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.gr</groupId>
@@ -15,6 +15,155 @@
     <description>聚合服务</description>
     <packaging>pom</packaging>
 
+    <properties>
+        <java.version>1.8</java.version>
+        <gulimall.version>0.0.1-SNAPSHOT</gulimall.version>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <lombok.version>1.18.12</lombok.version>
+        <mybatis-plus.version>3.2.0</mybatis-plus.version>
+        <mysql.version>8.0.17</mysql.version>
+        <httpcomponents.version>4.4.12</httpcomponents.version>
+        <commons.lang.version>2.6</commons.lang.version>
+        <spring.boot.version>2.1.8.RELEASE</spring.boot.version>
+        <spring.cloud.version>Greenwich.SR3</spring.cloud.version>
+        <cloud.alibaba.version>2.1.0.RELEASE</cloud.alibaba.version>
+        <swagger.version>2.9.2</swagger.version>
+        <swagger-bootstrap-ui.version>1.9.2</swagger-bootstrap-ui.version>
+        <mapstruct.version>1.4.1.Final</mapstruct.version>
+        <elasticsearch.version>7.4.2</elasticsearch.version>
+        <aliyun-java-sdk-core.version>4.3.3</aliyun-java-sdk-core.version>
+    </properties>
+
+    <!--  子模块继承父模块之后，提供作用：锁定版本 + 子模块不用再写 version  -->
+    <dependencyManagement>
+        <dependencies>
+            <!--阿里云短信-->
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-core</artifactId>
+                <version>${aliyun-java-sdk-core.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-client</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+            <!--mapstruct-->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${cloud.alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!--swagger-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <!--swagger ui-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <!--swagger-bootstrap-ui-->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>swagger-bootstrap-ui</artifactId>
+                <version>${swagger-bootstrap-ui.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>${commons.lang.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.gr</groupId>
+                <artifactId>mall-common</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+
+        </dependencies>
+    </dependencyManagement>
+
+    <!--  这里的依赖会被子模块继承  -->
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.7.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <modules>
         <module>mall-coupon</module>
@@ -25,6 +174,8 @@
         <module>renren-fast</module>
         <module>renren-generator</module>
         <module>mall-common</module>
+        <module>mall-gateway</module>
+        <module>mall-third-party</module>
     </modules>
 
 </project>

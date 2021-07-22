@@ -1,15 +1,14 @@
 package com.gr.product.controller;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.gr.product.entity.CategoryEntity;
 import com.gr.product.service.CategoryService;
@@ -28,18 +27,20 @@ import com.gr.common.utils.R;
 @RestController
 @RequestMapping("product/category")
 public class CategoryController {
+
     @Autowired
     private CategoryService categoryService;
+
 
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @RequestMapping("/list/tree")
     //@RequiresPermissions("product:category:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = categoryService.queryPage(params);
+        List<CategoryEntity> res = categoryService.listWithTree();
 
-        return R.ok().put("page", page);
+        return R.ok().put("data", res);
     }
 
 
@@ -51,7 +52,7 @@ public class CategoryController {
     public R info(@PathVariable("catId") Long catId){
 		CategoryEntity category = categoryService.getById(catId);
 
-        return R.ok().put("category", category);
+        return R.ok().put("data", category);
     }
 
     /**
@@ -60,6 +61,7 @@ public class CategoryController {
     @RequestMapping("/save")
     //@RequiresPermissions("product:category:save")
     public R save(@RequestBody CategoryEntity category){
+        System.out.println(category.toString());
 		categoryService.save(category);
 
         return R.ok();
@@ -82,9 +84,13 @@ public class CategoryController {
     @RequestMapping("/delete")
     //@RequiresPermissions("product:category:delete")
     public R delete(@RequestBody Long[] catIds){
-		categoryService.removeByIds(Arrays.asList(catIds));
-
+        System.out.println("被调用了");
+        for(Long a : catIds) {
+            System.out.println(a);
+        }
+		categoryService.removeMenu(Arrays.asList(catIds));
         return R.ok();
     }
+
 
 }

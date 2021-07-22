@@ -25,7 +25,7 @@ spring:
   redis:
     open: false  # 是否开启redis缓存  true开启   false关闭
     database: 0
-    host: localhost
+    host: 192.168.56.10
     port: 6379
     password:    # 密码（默认为空）
     timeout: 6000ms  # 连接超时时长（毫秒）
@@ -37,6 +37,8 @@ spring:
         min-idle: 5       # 连接池中的最小空闲连接
   mvc:
     throw-exception-if-no-handler-found: true
+  main:
+    allow-bean-definition-overriding: true
 #  resources:
 #    add-mappings: false
 
