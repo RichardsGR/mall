@@ -1,10 +1,15 @@
 package com.gr.product.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 
+import com.gr.common.valid.AddGroup;
+import com.gr.common.valid.UpdateGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +21,7 @@ import com.gr.product.service.BrandService;
 import com.gr.common.utils.PageUtils;
 import com.gr.common.utils.R;
 
+import javax.validation.Valid;
 
 
 /**
@@ -59,7 +65,9 @@ public class BrandController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("product:brand:save")
-    public R save(@RequestBody BrandEntity brand){
+    //BindingResult是前一个参数的校验结果
+    public R save(@Validated({AddGroup.class}) @RequestBody BrandEntity brand){
+
 		brandService.save(brand);
 
         return R.ok();
@@ -70,7 +78,7 @@ public class BrandController {
      */
     @RequestMapping("/update")
     //@RequiresPermissions("product:brand:update")
-    public R update(@RequestBody BrandEntity brand){
+    public R update(@Validated(UpdateGroup.class) @RequestBody BrandEntity brand){
 		brandService.updateById(brand);
 
         return R.ok();
