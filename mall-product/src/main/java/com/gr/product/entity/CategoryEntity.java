@@ -63,5 +63,5 @@ public class CategoryEntity implements Serializable {
 	private Integer productCount;
 
 	@TableField(exist = false)
-	private List<CategoryEntity> childrenList;
+	private List<CategoryEntity> children;
 }
