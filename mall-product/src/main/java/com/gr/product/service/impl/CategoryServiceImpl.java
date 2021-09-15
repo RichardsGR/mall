@@ -1,8 +1,11 @@
 package com.gr.product.service.impl;
 
 import com.gr.product.dao.CategoryDao;
+import com.gr.product.service.CategoryBrandRelationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -15,10 +18,14 @@ import com.gr.common.utils.Query;
 
 import com.gr.product.entity.CategoryEntity;
 import com.gr.product.service.CategoryService;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+
+    @Autowired
+    CategoryBrandRelationService categoryBrandRelationService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -51,6 +58,28 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
         //逻辑删除
         baseMapper.deleteBatchIds(asList);
+    }
+
+    @Override
+    public Long[] findCatelogPath(Long catId) {
+        List<Long> path = new ArrayList<>();
+        findPath(catId,path);
+        return (Long[]) path.toArray(new Long[path.size()]);
+    }
+
+    @Transactional
+    @Override
+    public void updateCascade(CategoryEntity category) {
+        this.updateById(category);
+        categoryBrandRelationService.updateCategory(category.getCatId(),category.getName());
+    }
+
+    public void findPath(Long catId, List<Long> paths) {
+        CategoryEntity ce = this.getById(catId);
+        if(ce.getParentCid() != 0) {
+            findPath(ce.getParentCid(),paths);
+        }
+        paths.add(catId);
     }
 
     private List<CategoryEntity> getChildren(CategoryEntity root, List<CategoryEntity> all) {
