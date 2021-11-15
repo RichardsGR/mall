@@ -1,9 +1,12 @@
 package com.gr.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
+import com.gr.product.entity.ProductAttrValueEntity;
+import com.gr.product.service.ProductAttrValueService;
 import com.gr.product.vo.AttrRespVo;
 import com.gr.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +32,14 @@ public class AttrController {
     @Autowired
     private AttrService attrService;
 
+    @Autowired
+    ProductAttrValueService productAttrValueService;
 
+    @PostMapping("/base/listforspu/{spuId}")
+    public R listForSpu(@PathVariable("spuId") Long spuId) {
+         List<ProductAttrValueEntity> entities =  productAttrValueService.baseAttrlistforspu(spuId);
+         return R.ok().put("data",entities);
+    }
 
     /**
      * 列表
